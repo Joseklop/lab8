@@ -1,0 +1,90 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:lab8.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:model="using:lab8.Models"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="600"
+        x:Class="lab8.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        MinHeight="600"
+        MinWidth="600"
+        Title="lab8"
+        >
+
+  <DockPanel>
+    <Menu Background="#2D2D30" DockPanel.Dock="Top" VerticalAlignment="Top">
+      <MenuItem Header="File" Foreground="#F1F1F1">
+              <MenuItem Header="New"  Name="New" />
+              <MenuItem Header="Save" Name="Save"/>
+              <MenuItem Header="Load" Name="Load"/>
+              <MenuItem Header="Exit" Name="Exit"/>
+      </MenuItem>
+      <MenuItem Header="About" Name="About" Foreground="#F1F1F1"/>
+    </Menu>
+    
+    <Grid Background="#9E9E9E" ColumnDefinitions="*,*,*" RowDefinitions="40, *, 40" ShowGridLines="False">
+      <TextBlock Grid.Column="0" Text="Запланировано" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+      <TextBlock Grid.Column="1" Text="В работе"      FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+      <TextBlock Grid.Column="2" Text="Завершено"     FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <ListBox Grid.Column="0" Grid.Row="1" Items="{Binding Planned}" BorderBrush="Black" BorderThickness="1">
+          <ListBox.ItemTemplate>
+            <DataTemplate DataType="{x:Type model:Note}" >
+              <Expander IsExpanded="{Binding IsSelected}" Header="{Binding Header}" HorizontalContentAlignment="Stretch">
+                <StackPanel>
+                  <TextBlock Text="Header:" />
+                  <TextBox Text="{Binding Header}"/>
+                  <TextBlock Text="Task"/>
+                  <TextBox Text="{Binding Task}" TextWrapping="NoWrap" AcceptsReturn="True" Height="100"/>
+                  <Image Source="{Binding Image}" Height="200" Width="200"/>
+                  <Button Content="Add Image" HorizontalAlignment="Stretch" Command="{Binding $parent[ListBox].VisualRoot.AddImage}"     CommandParameter="{Binding}"/>
+                  <Button Content="Delete"    HorizontalAlignment="Stretch" Command="{Binding $parent[ListBox].DataContext.DeleteImage}" CommandParameter="{Binding}"/>
+                </StackPanel>
+              </Expander>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      
+      <ListBox  Grid.Column="1" Grid.Row="1" Items="{Binding InWork}" BorderBrush="Black" BorderThickness="1">
+        <ListBox.ItemTemplate>
+          <DataTemplate DataType="{x:Type model:Note}" >
+            <Expander IsExpanded="{Binding IsSelected}" Header="{Binding Header}" HorizontalContentAlignment="Stretch">
+              <StackPanel>
+                <TextBlock Text="Header:" />
+                <TextBox Text="{Binding Header}"/>
+                <TextBlock Text="Task"/>
+                <TextBox Text="{Binding Task}" TextWrapping="NoWrap" AcceptsReturn="True" Height="100"/>
+                <Image Source="{Binding Image}" Height="200" Width="200"/>
+                <Button Content="Add Image" HorizontalAlignment="Stretch" Command="{Binding $parent[ListBox].VisualRoot.AddImage}"     CommandParameter="{Binding}"/>
+                <Button Content="Delete"    HorizontalAlignment="Stretch" Command="{Binding $parent[ListBox].DataContext.DeleteImage}" CommandParameter="{Binding}"/>
+              </StackPanel>
+            </Expander>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+      
+      <ListBox Grid.Column="2" Grid.Row="1" Items="{Binding Done}" BorderBrush="Black" BorderThickness="1">
+        <ListBox.ItemTemplate>
+          <DataTemplate DataType="{x:Type model:Note}" >
+            <Expander IsExpanded="{Binding IsSelected}" Header="{Binding Header}" HorizontalContentAlignment="Stretch">
+              <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                <TextBlock Text="Header:"/>
+                <TextBox Text="{Binding Header}"/>
+                <TextBlock Text="Task"/>
+                <TextBox Text="{Binding Task}" TextWrapping="NoWrap" AcceptsReturn="True" Height="100"/>
+                <Image Source="{Binding Image}" Height="200" Width="200"/>
+                <Button Content="Add Image" HorizontalAlignment="Stretch" Command="{Binding $parent[ListBox].VisualRoot.AddImage}"     CommandParameter="{Binding}"/>
+                <Button Content="Delete"    HorizontalAlignment="Stretch" Command="{Binding $parent[ListBox].DataContext.DeleteImage}" CommandParameter="{Binding}"/>
+              </StackPanel>
+            </Expander>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+      
+      <Button Command="{Binding AddNotePlanned}" Grid.Column="0" Grid.Row="2" Content="Add" FontWeight="Bold" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#007ACC" BorderBrush="Black" BorderThickness="1"/>
+      <Button Command="{Binding AddNoteInWork}"  Grid.Column="1" Grid.Row="2" Content="Add" FontWeight="Bold" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#007ACC" BorderBrush="Black" BorderThickness="1"/>
+      <Button Command="{Binding AddNoteDone}"    Grid.Column="2" Grid.Row="2" Content="Add" FontWeight="Bold" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#007ACC" BorderBrush="Black" BorderThickness="1"/>
+    </Grid>
+  </DockPanel>
+</Window>
